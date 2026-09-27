@@ -1,1 +1,3 @@
-# YourXChamber Privacy Policy`n`n[Read the privacy policy](PRIVACY.md).
+# YourXChamber Privacy Policy
+
+[Read the privacy policy](PRIVACY.md).
