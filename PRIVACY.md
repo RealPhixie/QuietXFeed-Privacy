@@ -2,7 +2,7 @@
 
 ## Local data
 
-The background-check preference (default off), popup language preference, and account list are stored in local extension storage in your browser. The current Chrome build uses `chrome.storage.local`. Entries contain handles, identity/alias information when available, and local timestamps. The extension does not upload or automatically sync the list between browser profiles.
+The background-check preference (default off), popup language preference, and account list are stored in local extension storage in your browser (`chrome.storage.local` in Chrome and `browser.storage.local` in Firefox). Entries contain handles, identity/alias information when available, and local timestamps. The extension does not upload or automatically sync the list between browser profiles.
 
 Content scripts inspect the current X page URL, displayed cards, and bounded author/post/parent metadata to apply the local policy. Short-lived relationship and count caches stay in memory. Removing an entry reverses applicable filtering. Uninstalling can remove the stored list.
 
@@ -13,6 +13,8 @@ YourXChamber has no backend, analytics, telemetry, advertising service, remote A
 It observes limited metadata from X responses your browser already receives. Only after explicit popup confirmation, for nearby posts with 1–10 replies it may also make bounded, read-only, same-origin X requests using your existing session. **X receives these ordinary authenticated post-detail requests.** They are not anonymous; X's own logging and privacy policy still apply. The extension does not click posts or send a separate click event. Whether X treats these detail requests as recommendation signals is unverified; an effect is possible, not proven. Disabling the option cancels queued and in-flight checks; it cannot undo a request X has already received.
 
 Only necessary authorization/CSRF and X session header fields from existing same-origin GraphQL traffic are reused. They stay in the page's in-memory request closure, not extension storage, logs, or the public metadata bridge. The extension does not read cookies directly or send your hide list to X.
+
+The Firefox build additionally requires Firefox's optional data permissions for authentication information, browsing activity, and website content before enabling these X requests. Declining or removing those permissions keeps background checks off; local filtering remains available. The extension checks permissions again when its background page starts and when the user enables the feature. These permissions cover requests sent to X, not a developer data-collection service.
 
 Limits: one in-flight request, 250 ms minimum start interval, 20 starts per five minutes per page, 12-second timeout, 2 MB response cap. Visibility, supported data-saving signals, error backoff, and duplicate suppression further restrict work.
 
